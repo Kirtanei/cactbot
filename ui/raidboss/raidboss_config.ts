@@ -1644,6 +1644,14 @@ const templateOptions: OptionsTemplate = {
       type: 'checkbox',
       default: false,
     },
+    {
+      id: 'cactbotRemoteExceptions',
+      name: {
+        en: 'Enable exceptions for Remote Cactbot users',
+      },
+      type: 'checkbox',
+      default: false,
+    },
   ],
 };
 
