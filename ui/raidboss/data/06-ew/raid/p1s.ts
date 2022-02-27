@@ -1,4 +1,5 @@
 import Conditions from '../../../../../resources/conditions';
+import StaticConfig from '../../../../../resources/conditions';
 import NetRegexes from '../../../../../resources/netregexes';
 import Outputs from '../../../../../resources/outputs';
 import { Responses } from '../../../../../resources/responses';
@@ -8,12 +9,66 @@ import { TriggerSet } from '../../../../../types/trigger';
 
 // TODO: Fixup Intemperance callouts
 // TODO: Add Aetherflail callouts to Powerful Light/Fire
+interface StaticConfig {
+  [key: string]: string[];
+}
+
+const staticConfig: StaticConfig = {
+  "P1S Tile Positions": [
+    'Kirtanei Blackscale',
+  ],
+  "P1S Warder\'s Wrath": [
+    'Kirtanei Blackscale',
+  ],
+  "P1S Shackles of Companionship": [
+    'Kirtanei Blackscale',
+  ],
+  "P1S Shackles of Loneliness": [
+    'Kirtanei Blackscale',
+  ],
+  "P1S Aetherial Shackles Callout": [
+  ],
+  "P1S Shining Cells": [
+    'Kirtanei Blackscale',
+  ],
+  "P1S Slam Shut": [
+    'Kirtanei Blackscale',
+  ],
+  "P1S Gaoler\'s Flail": [
+    'Kirtanei Blackscale',
+  ],
+  "P1S Heavy Hand": [
+    'Kirtanei Blackscale',
+  ],
+  "P1S Pitiless Flail": [
+    'Kirtanei Blackscale',
+  ],
+  "P1S Intemperate Torment Direction": [
+    'Kirtanei Blackscale',
+  ],
+  "P1S Hot/Cold Spell": [
+  ],
+  "P1S Powerful Light/Fire": [
+  ],
+  "P1S Shackles of Time": [
+    'Kirtanei Blackscale',
+  ],
+  "P1S Fourfold Shackles": [
+    'Kirtanei Blackscale',
+  ],
+}
 
 export interface Data extends RaidbossData {
   companionship?: string;
   loneliness?: string;
   safeColor?: string;
 }
+
+
+function isEnabled(staticConfig: StaticConfig, ability: string, member: string) {
+  return staticConfig[ability]!.includes(member);
+}
+
 
 const flailDirections = {
   l: Outputs.left,
@@ -56,6 +111,7 @@ const triggerSet: TriggerSet<Data> = {
       regex: /(?:First|Second|Third) Element/,
       beforeSeconds: 3,
       infoText: (_data, _matches, output) => output.positions!(),
+      condition: (data) => isEnabled(staticConfig, "P1S Tile Positions", data.me),
       outputStrings: {
         positions: {
           en: 'Tile Positions',
@@ -72,6 +128,7 @@ const triggerSet: TriggerSet<Data> = {
     {
       id: 'P1S Warder\'s Wrath',
       type: 'StartsUsing',
+      condition: (data) => isEnabled(staticConfig, "P1S Warder\'s Wrath", data.me),
       netRegex: NetRegexes.startsUsing({ id: '662A', source: 'Erichthonios', capture: false }),
       netRegexDe: NetRegexes.startsUsing({ id: '662A', source: 'Erichthonios', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: '662A', source: 'Érichthonios', capture: false }),
@@ -81,6 +138,7 @@ const triggerSet: TriggerSet<Data> = {
     {
       id: 'P1S Shackles of Companionship',
       type: 'GainsEffect',
+      condition: (data) => isEnabled(staticConfig, "P1S Shackles of Companionship", data.me),
       netRegex: NetRegexes.gainsEffect({ effectId: 'AB6' }),
       preRun: (data, matches) => data.companionship = matches.target,
       durationSeconds: (_data, matches) => parseFloat(matches.duration) - 2,
@@ -102,10 +160,12 @@ const triggerSet: TriggerSet<Data> = {
     {
       id: 'P1S Shackles of Loneliness',
       type: 'GainsEffect',
+      condition: (data) => isEnabled(staticConfig, "P1S Shackles of Loneliness", data.me),
       netRegex: NetRegexes.gainsEffect({ effectId: 'AB7' }),
       preRun: (data, matches) => data.loneliness = matches.target,
       durationSeconds: (_data, matches) => parseFloat(matches.duration) - 2,
       alertText: (data, matches, output) => {
+        console.dir(data);
         if (data.me === matches.target)
           return output.farShacklesOnYou!();
       },
@@ -125,7 +185,7 @@ const triggerSet: TriggerSet<Data> = {
       id: 'P1S Aetherial Shackles Callout',
       type: 'GainsEffect',
       netRegex: NetRegexes.gainsEffect({ effectId: 'AB[67]' }),
-      condition: (data) => data.companionship !== undefined && data.loneliness !== undefined,
+      condition: (data) => data.companionship !== undefined && data.loneliness !== undefined && isEnabled(staticConfig, "P1S Aetherial Shackles Callout", data.me),
       durationSeconds: (_data, matches) => parseFloat(matches.duration) - 2,
       infoText: (data, _matches, output) => {
         if (data.companionship === data.me)
@@ -173,6 +233,7 @@ const triggerSet: TriggerSet<Data> = {
     {
       id: 'P1S Shining Cells',
       type: 'StartsUsing',
+      condition: (data) => isEnabled(staticConfig, "P1S Shining Cells", data.me),
       netRegex: NetRegexes.startsUsing({ id: '6616', source: 'Erichthonios', capture: false }),
       netRegexDe: NetRegexes.startsUsing({ id: '6616', source: 'Erichthonios', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: '6616', source: 'Érichthonios', capture: false }),
@@ -182,6 +243,7 @@ const triggerSet: TriggerSet<Data> = {
     {
       id: 'P1S Slam Shut',
       type: 'StartsUsing',
+      condition: (data) => isEnabled(staticConfig, "P1S Slam Shut", data.me),
       netRegex: NetRegexes.startsUsing({ id: '6617', source: 'Erichthonios', capture: false }),
       netRegexDe: NetRegexes.startsUsing({ id: '6617', source: 'Erichthonios', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: '6617', source: 'Érichthonios', capture: false }),
@@ -191,6 +253,7 @@ const triggerSet: TriggerSet<Data> = {
     {
       id: 'P1S Gaoler\'s Flail Left => Right',
       type: 'StartsUsing',
+      condition: (data) => isEnabled(staticConfig, "P1S Gaoler\'s Flail", data.me),
       netRegex: NetRegexes.startsUsing({ id: '65F6', source: 'Erichthonios', capture: false }),
       netRegexDe: NetRegexes.startsUsing({ id: '65F6', source: 'Erichthonios', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: '65F6', source: 'Érichthonios', capture: false }),
@@ -201,6 +264,7 @@ const triggerSet: TriggerSet<Data> = {
     {
       id: 'P1S Gaoler\'s Flail Right => Left',
       type: 'StartsUsing',
+      condition: (data) => isEnabled(staticConfig, "P1S Gaoler\'s Flail", data.me),
       netRegex: NetRegexes.startsUsing({ id: '65F7', source: 'Erichthonios', capture: false }),
       netRegexDe: NetRegexes.startsUsing({ id: '65F7', source: 'Erichthonios', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: '65F7', source: 'Érichthonios', capture: false }),
@@ -211,6 +275,7 @@ const triggerSet: TriggerSet<Data> = {
     {
       id: 'P1S Gaoler\'s Flail Out => In',
       type: 'StartsUsing',
+      condition: (data) => isEnabled(staticConfig, "P1S Gaoler\'s Flail", data.me),
       netRegex: NetRegexes.startsUsing({ id: ['65F8', '65F9'], source: 'Erichthonios', capture: false }),
       netRegexDe: NetRegexes.startsUsing({ id: ['65F8', '65F9'], source: 'Erichthonios', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: ['65F8', '65F9'], source: 'Érichthonios', capture: false }),
@@ -223,6 +288,7 @@ const triggerSet: TriggerSet<Data> = {
     {
       id: 'P1S Gaoler\'s Flail In => Out',
       type: 'StartsUsing',
+      condition: (data) => isEnabled(staticConfig, "P1S Gaoler\'s Flail", data.me),
       netRegex: NetRegexes.startsUsing({ id: ['65FA', '65FB'], source: 'Erichthonios', capture: false }),
       netRegexDe: NetRegexes.startsUsing({ id: ['65FA', '65FB'], source: 'Erichthonios', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: ['65FA', '65FB'], source: 'Érichthonios', capture: false }),
@@ -239,12 +305,13 @@ const triggerSet: TriggerSet<Data> = {
       netRegexDe: NetRegexes.startsUsing({ id: '6629', source: 'Erichthonios' }),
       netRegexFr: NetRegexes.startsUsing({ id: '6629', source: 'Érichthonios' }),
       netRegexJa: NetRegexes.startsUsing({ id: '6629', source: 'エリクトニオス' }),
-      condition: Conditions.caresAboutPhysical(),
+      condition: (data) => Conditions.caresAboutPhysical() && isEnabled(staticConfig, "P1S Heavy Hand", data.me),
       response: Responses.tankBuster(),
     },
     {
       id: 'P1S Pitiless Flail of Grace',
       type: 'StartsUsing',
+      condition: (data) => isEnabled(staticConfig, "P1S Pitiless Flail", data.me),
       netRegex: NetRegexes.startsUsing({ id: '660E', source: 'Erichthonios', capture: false }),
       netRegexDe: NetRegexes.startsUsing({ id: '660E', source: 'Erichthonios', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: '660E', source: 'Érichthonios', capture: false }),
@@ -264,6 +331,7 @@ const triggerSet: TriggerSet<Data> = {
     {
       id: 'P1S Pitiless Flail of Purgation',
       type: 'StartsUsing',
+      condition: (data) => isEnabled(staticConfig, "P1S Pitiless Flail", data.me),
       netRegex: NetRegexes.startsUsing({ id: '660F', source: 'Erichthonios', capture: false }),
       netRegexDe: NetRegexes.startsUsing({ id: '660F', source: 'Erichthonios', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: '660F', source: 'Érichthonios', capture: false }),
@@ -283,6 +351,7 @@ const triggerSet: TriggerSet<Data> = {
     {
       id: 'P1S Intemperate Torment Bottom',
       type: 'StartsUsing',
+      condition: (data) => isEnabled(staticConfig, "P1S Intemperate Torment Direction", data.me),
       netRegex: NetRegexes.startsUsing({ id: '661F', source: 'Erichthonios', capture: false }),
       netRegexDe: NetRegexes.startsUsing({ id: '661F', source: 'Erichthonios', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: '661F', source: 'Érichthonios', capture: false }),
@@ -301,6 +370,7 @@ const triggerSet: TriggerSet<Data> = {
     {
       id: 'P1S Intemperate Torment Top',
       type: 'StartsUsing',
+      condition: (data) => isEnabled(staticConfig, "P1S Intemperate Torment Direction", data.me),
       netRegex: NetRegexes.startsUsing({ id: '6620', source: 'Erichthonios', capture: false }),
       netRegexDe: NetRegexes.startsUsing({ id: '6620', source: 'Erichthonios', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: '6620', source: 'Érichthonios', capture: false }),
@@ -320,8 +390,8 @@ const triggerSet: TriggerSet<Data> = {
     {
       id: 'P1S Hot/Cold Spell',
       type: 'GainsEffect',
+      condition: (data) => Conditions.targetIsYou() && isEnabled(staticConfig, "P1S Hot/Cold Spell", data.me),
       netRegex: NetRegexes.gainsEffect({ effectId: ['AB3', 'AB4'] }),
-      condition: Conditions.targetIsYou(),
       alertText: (_data, matches, output) => {
         return matches.effectId === 'AB3' ? output.red!() : output.blue!();
       },
@@ -347,6 +417,7 @@ const triggerSet: TriggerSet<Data> = {
     {
       id: 'P1S Powerful Light/Fire',
       type: 'GainsEffect',
+      condition: (data) => isEnabled(staticConfig, "P1S Powerful Light/Fire", data.me),
       netRegex: NetRegexes.gainsEffect({ effectId: '893' }),
       preRun: (data, matches) => {
         data.safeColor = matches.count === '14C' ? 'light' : 'fire';
@@ -357,6 +428,7 @@ const triggerSet: TriggerSet<Data> = {
     {
       id: 'P1S Shackles of Time',
       type: 'GainsEffect',
+      condition: (data) => isEnabled(staticConfig, "P1S Shackles of Time", data.me),
       netRegex: NetRegexes.gainsEffect({ effectId: 'AB5' }),
       alertText: (data, matches, output) => {
         if (matches.target === data.me)
@@ -384,7 +456,7 @@ const triggerSet: TriggerSet<Data> = {
       id: 'P1S Fourfold Shackles of Companionship 1',
       type: 'GainsEffect',
       netRegex: NetRegexes.gainsEffect({ effectId: 'B45' }),
-      condition: Conditions.targetIsYou(),
+      condition: (data) => Conditions.targetIsYou() && isEnabled(staticConfig, "P1S Fourfold Shackles", data.me),
       durationSeconds: (_data, matches) => parseFloat(matches.duration),
       alertText: (_data, _matches, output) => output.text!(),
       outputStrings: {
@@ -402,7 +474,7 @@ const triggerSet: TriggerSet<Data> = {
       id: 'P1S Fourfold Shackles of Companionship 2',
       type: 'GainsEffect',
       netRegex: NetRegexes.gainsEffect({ effectId: 'B46' }),
-      condition: Conditions.targetIsYou(),
+      condition: (data) => Conditions.targetIsYou() && isEnabled(staticConfig, "P1S Fourfold Shackles", data.me),
       durationSeconds: (_data, matches) => parseFloat(matches.duration),
       alertText: (_data, _matches, output) => output.text!(),
       outputStrings: {
@@ -420,7 +492,7 @@ const triggerSet: TriggerSet<Data> = {
       id: 'P1S Fourfold Shackles of Companionship 3',
       type: 'GainsEffect',
       netRegex: NetRegexes.gainsEffect({ effectId: 'B47' }),
-      condition: Conditions.targetIsYou(),
+      condition: (data) => Conditions.targetIsYou() && isEnabled(staticConfig, "P1S Fourfold Shackles", data.me),
       durationSeconds: (_data, matches) => parseFloat(matches.duration),
       alertText: (_data, _matches, output) => output.text!(),
       outputStrings: {
@@ -438,7 +510,7 @@ const triggerSet: TriggerSet<Data> = {
       id: 'P1S Fourfold Shackles of Companionship 4',
       type: 'GainsEffect',
       netRegex: NetRegexes.gainsEffect({ effectId: 'B6B' }),
-      condition: Conditions.targetIsYou(),
+      condition: (data) => Conditions.targetIsYou() && isEnabled(staticConfig, "P1S Fourfold Shackles", data.me),
       durationSeconds: (_data, matches) => parseFloat(matches.duration),
       alertText: (_data, _matches, output) => output.text!(),
       outputStrings: {
@@ -456,7 +528,7 @@ const triggerSet: TriggerSet<Data> = {
       id: 'P1S Fourfold Shackles of Loneliness 1',
       type: 'GainsEffect',
       netRegex: NetRegexes.gainsEffect({ effectId: 'B48' }),
-      condition: Conditions.targetIsYou(),
+      condition: (data) => Conditions.targetIsYou() && isEnabled(staticConfig, "P1S Fourfold Shackles", data.me),
       durationSeconds: (_data, matches) => parseFloat(matches.duration),
       alertText: (_data, _matches, output) => output.text!(),
       outputStrings: {
@@ -474,7 +546,7 @@ const triggerSet: TriggerSet<Data> = {
       id: 'P1S Fourfold Shackles of Loneliness 2',
       type: 'GainsEffect',
       netRegex: NetRegexes.gainsEffect({ effectId: 'B49' }),
-      condition: Conditions.targetIsYou(),
+      condition: (data) => Conditions.targetIsYou() && isEnabled(staticConfig, "P1S Fourfold Shackles", data.me),
       durationSeconds: (_data, matches) => parseFloat(matches.duration),
       alertText: (_data, _matches, output) => output.text!(),
       outputStrings: {
@@ -492,7 +564,7 @@ const triggerSet: TriggerSet<Data> = {
       id: 'P1S Fourfold Shackles of Loneliness 3',
       type: 'GainsEffect',
       netRegex: NetRegexes.gainsEffect({ effectId: 'B4A' }),
-      condition: Conditions.targetIsYou(),
+      condition: (data) => Conditions.targetIsYou() && isEnabled(staticConfig, "P1S Fourfold Shackles", data.me),
       durationSeconds: (_data, matches) => parseFloat(matches.duration),
       alertText: (_data, _matches, output) => output.text!(),
       outputStrings: {
@@ -510,7 +582,7 @@ const triggerSet: TriggerSet<Data> = {
       id: 'P1S Fourfold Shackles of Loneliness 4',
       type: 'GainsEffect',
       netRegex: NetRegexes.gainsEffect({ effectId: 'B6C' }),
-      condition: Conditions.targetIsYou(),
+      condition: (data) => Conditions.targetIsYou() && isEnabled(staticConfig, "P1S Fourfold Shackles", data.me),
       durationSeconds: (_data, matches) => parseFloat(matches.duration),
       alertText: (_data, _matches, output) => output.text!(),
       outputStrings: {
