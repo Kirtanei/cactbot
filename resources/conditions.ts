@@ -3,8 +3,6 @@
 
 import { RaidbossData as Data } from '../types/data';
 import { TargetedMatches } from '../types/trigger';
-import data from './content_type';
-import { StaticConfig } from './static/main';
 
 export default {
   targetIsYou(): (data: Data, matches: TargetedMatches) => boolean {
@@ -24,8 +22,5 @@ export default {
   caresAboutPhysical(): (data: Data) => boolean {
     return (data: Data) =>
       data.role === 'tank' || data.role === 'healer' || data.CanFeint() || data.job === 'BLU';
-  },
-  isEnabled(): (data: Data, member: StaticConfig) => Data {
-    return (data: Data) => data;
   },
 };
