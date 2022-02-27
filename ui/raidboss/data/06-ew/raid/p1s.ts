@@ -165,6 +165,7 @@ const triggerSet: TriggerSet<Data> = {
       preRun: (data, matches) => data.loneliness = matches.target,
       durationSeconds: (_data, matches) => parseFloat(matches.duration) - 2,
       alertText: (data, matches, output) => {
+        console.dir(data);
         if (data.me === matches.target)
           return output.farShacklesOnYou!();
       },
