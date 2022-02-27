@@ -98,11 +98,11 @@ Options.Triggers.push({
         {
             id: 'P1S Warder\'s Wrath',
             type: 'StartsUsing',
-            condition: (data) => isEnabled(staticConfig, 'P1S Warder\'s Wrath', data.me),
             netRegex: NetRegexes.startsUsing({ id: '662A', source: 'Erichthonios', capture: false }),
             netRegexDe: NetRegexes.startsUsing({ id: '662A', source: 'Erichthonios', capture: false }),
             netRegexFr: NetRegexes.startsUsing({ id: '662A', source: 'Érichthonios', capture: false }),
             netRegexJa: NetRegexes.startsUsing({ id: '662A', source: 'エリクトニオス', capture: false }),
+            condition: (data) => isEnabled(staticConfig, 'P1S Warder\'s Wrath', data.me),
             response: Responses.aoe(),
         },
         {
