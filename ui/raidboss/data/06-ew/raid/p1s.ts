@@ -110,8 +110,8 @@ const triggerSet: TriggerSet<Data> = {
       id: 'P1S Tile Positions',
       regex: /(?:First|Second|Third) Element/,
       beforeSeconds: 3,
-      infoText: (_data, _matches, output) => output.positions!(),
       condition: (data) => isEnabled(staticConfig, 'P1S Tile Positions', data.me),
+      infoText: (_data, _matches, output) => output.positions!(),
       outputStrings: {
         positions: {
           en: 'Tile Positions',
