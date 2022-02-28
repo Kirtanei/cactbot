@@ -257,8 +257,8 @@ const triggerSet: TriggerSet<Data> = {
       netRegexDe: NetRegexes.startsUsing({ id: '65F6', source: 'Erichthonios', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: '65F6', source: 'Érichthonios', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ id: '65F6', source: 'エリクトニオス', capture: false }),
-      alertText: (_data, _matches, output) => output.combo!({ first: output.l!(), second: output.r!() }),
       condition: (data) => isEnabled(staticConfig, 'P1S Gaoler\'s Flail', data.me),
+      alertText: (_data, _matches, output) => output.combo!({ first: output.l!(), second: output.r!() }),
       outputStrings: flailDirections,
     },
     {
@@ -268,8 +268,8 @@ const triggerSet: TriggerSet<Data> = {
       netRegexDe: NetRegexes.startsUsing({ id: '65F7', source: 'Erichthonios', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: '65F7', source: 'Érichthonios', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ id: '65F7', source: 'エリクトニオス', capture: false }),
-      alertText: (_data, _matches, output) => output.combo!({ first: output.r!(), second: output.l!() }),
       condition: (data) => isEnabled(staticConfig, 'P1S Gaoler\'s Flail', data.me),
+      alertText: (_data, _matches, output) => output.combo!({ first: output.r!(), second: output.l!() }),
       outputStrings: flailDirections,
     },
     {
