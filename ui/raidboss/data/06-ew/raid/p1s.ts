@@ -12,7 +12,7 @@ interface StaticConfig {
   [key: string]: string[];
 }
 
-const isEnabled = function(staticConfig: StaticConfig, ability: string, member: string) {
+const isEnabled = (staticConfig: StaticConfig, ability: string, member: string) => {
   return staticConfig[ability]!.includes(member);
 };
 
@@ -30,7 +30,7 @@ const staticConfig: StaticConfig = {
     'Kirtanei Blackscale',
   ],
   'P1S Aetherial Shackles Callout': [
-    ''
+    '',
   ],
   'P1S Shining Cells': [
     'Kirtanei Blackscale',
@@ -50,10 +50,8 @@ const staticConfig: StaticConfig = {
   'P1S Intemperate Torment Direction': [
     'Kirtanei Blackscale',
   ],
-  'P1S Hot/Cold Spell': [
-  ],
-  'P1S Powerful Light/Fire': [
-  ],
+  'P1S Hot/Cold Spell': [],
+  'P1S Powerful Light/Fire': [],
   'P1S Shackles of Time': [
     'Kirtanei Blackscale',
   ],
@@ -66,7 +64,6 @@ export interface Data extends RaidbossData {
   loneliness?: string;
   safeColor?: string;
 }
-
 
 const flailDirections = {
   l: Outputs.left,
