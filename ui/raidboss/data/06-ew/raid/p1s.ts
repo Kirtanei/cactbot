@@ -1,5 +1,4 @@
 import Conditions from '../../../../../resources/conditions';
-import StaticConfig from '../../../../../resources/conditions';
 import NetRegexes from '../../../../../resources/netregexes';
 import Outputs from '../../../../../resources/outputs';
 import { Responses } from '../../../../../resources/responses';
@@ -12,6 +11,10 @@ import { TriggerSet } from '../../../../../types/trigger';
 interface StaticConfig {
   [key: string]: string[];
 }
+
+const isEnabled = function(staticConfig: StaticConfig, ability: string, member: string) {
+  return staticConfig[ability]!.includes(member);
+};
 
 const staticConfig: StaticConfig = {
   'P1S Tile Positions': [
@@ -27,6 +30,7 @@ const staticConfig: StaticConfig = {
     'Kirtanei Blackscale',
   ],
   'P1S Aetherial Shackles Callout': [
+    ''
   ],
   'P1S Shining Cells': [
     'Kirtanei Blackscale',
@@ -56,17 +60,11 @@ const staticConfig: StaticConfig = {
   'P1S Fourfold Shackles': [
     'Kirtanei Blackscale',
   ],
-}
-
+};
 export interface Data extends RaidbossData {
   companionship?: string;
   loneliness?: string;
   safeColor?: string;
-}
-
-
-function isEnabled(staticConfig: StaticConfig, ability: string, member: string) {
-  return staticConfig[ability]!.includes(member);
 }
 
 
