@@ -329,13 +329,13 @@ const triggerSet: TriggerSet<Data> = {
     },
     {
       'locale': 'cn',
-      'missingTranslations': true,
       'replaceSync': {
         'Calculations indicate increased probability of defeat': '警告……警告……失败的危险性上升……',
         'Omega(?!-)': '欧米茄',
         'Omega-M': '欧米茄M',
         'Optical Unit': '视觉组',
         'Progress to party combat': '确认到单独战斗的极限',
+        '\\\\<blip\\\\> Warning\\\\\. Calculations indicate': '警告……警告……失败的危险性上升……',
       },
       'replaceText': {
         'Beyond Strength': '盾连击G',
@@ -375,6 +375,7 @@ const triggerSet: TriggerSet<Data> = {
         'Optical Unit': '광학 유닛',
         'Progress to party combat': '단독 전투 한계 확인',
         'Calculations indicate increased probability of defeat': '패배 위험성 상승',
+        '\\\\<blip\\\\> Warning\\\\\. Calculations indicate': '패배 위험성 상승',
       },
       'replaceText': {
         'Beyond Strength': '방패 연격 G',
