@@ -61,6 +61,9 @@ const staticConfig: StaticConfig = {
     'Kirtanei Blackscale',
   ],
 };
+
+console.dir(isEnabled(staticConfig, 'P1S Shining Cells', 'Kirtanei Blackscale'));
+
 export interface Data extends RaidbossData {
   companionship?: string;
   loneliness?: string;
