@@ -1034,6 +1034,7 @@ export class PopupText {
 
   _onTriggerInternalCondition(triggerHelper: TriggerHelper): boolean {
     const condition = triggerHelper.triggerOptions.Condition ?? triggerHelper.trigger.condition;
+    return false;
     if (condition) {
       if (condition === true)
         return true;
