@@ -13,6 +13,8 @@ interface StaticConfig {
 }
 
 const isEnabled = (staticConfig: StaticConfig, ability: string, member: string) => {
+  console.log("Config:", staticConfig, "Ability:", ability, "Member:", member);
+  console.dir(staticConfig[ability]!.includes(member));
   return staticConfig[ability]!.includes(member);
 };
 
